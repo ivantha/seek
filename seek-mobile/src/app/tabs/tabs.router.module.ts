@@ -38,6 +38,16 @@ const routes: Routes = [
                 ]
             },
             {
+                path: 'skills',
+                children: [
+                    {
+                        path: '',
+                        loadChildren: () =>
+                            import('../skills/skills.module').then(m => m.SkillsPageModule)
+                    }
+                ]
+            },
+            {
                 path: '',
                 redirectTo: '/tabs/search',
                 pathMatch: 'full'

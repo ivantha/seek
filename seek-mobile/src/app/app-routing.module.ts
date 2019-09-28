@@ -9,7 +9,10 @@ const routes: Routes = [
     {path: 'sessions', loadChildren: './sessions/sessions.module#SessionsPageModule'},
     {path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule'},
     {path: 'search', loadChildren: './search/search.module#SearchPageModule'},
-  { path: 'filter-modal', loadChildren: './filter-modal/filter-modal.module#FilterModalPageModule' }
+    {path: 'filter-modal', loadChildren: './filter-modal/filter-modal.module#FilterModalPageModule'},
+    {path: 'skills', loadChildren: './skills/skills.module#SkillsPageModule'},
+    {path: 'signup', loadChildren: './signup/signup.module#SignupPageModule'},
+    {path: 'signin', loadChildren: './signin/signin.module#SigninPageModule'}
 ];
 
 @NgModule({

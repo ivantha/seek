@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfilePage implements OnInit {
 
+  fullName: string;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  handleFirstNameValue(event) {
+    this.fullName = event.target.value;
   }
 
 }

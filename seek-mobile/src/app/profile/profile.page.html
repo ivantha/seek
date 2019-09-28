@@ -6,4 +6,51 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content scrollY="false">
+    <ion-list lines="full" class="ion-no-margin ion-no-padding" >
+
+        <ion-item>
+            <ion-label position="stacked">Name
+                <ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-input required type="text" placeholder="John Doe" oninput="handleFullNameValue(event)"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label position="stacked">Address<ion-text color="danger">*</ion-text></ion-label>
+            <ion-input placeholder="Address Line 1"></ion-input>
+            <ion-input placeholder="Address Line 2"></ion-input>
+            <ion-input placeholder="City"></ion-input>
+            <ion-input placeholder="State"></ion-input>
+            <ion-input placeholder="Zip Code"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label position="stacked">Gender<ion-text color="danger">*</ion-text></ion-label>
+            <ion-select placeholder="Select One">
+                <ion-select-option value="f">Female</ion-select-option>
+                <ion-select-option value="m">Male</ion-select-option>
+            </ion-select>
+        </ion-item>
+
+        <ion-item>
+            <ion-label position="stacked">Phone number<ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-input required type="text" placeholder="+01 000000001"
+                       oninput="handlePhoneNumberValue(event)"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label position="stacked">Email<ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-input required type="text" placeholder="johndoe@gmail.com"
+                       oninput="handleEmailValue(event)"></ion-input>
+        </ion-item>
+
+        <div class="ion-padding">
+            <ion-button expand="block" type="submit" class="ion-no-margin">Update</ion-button>
+        </div>
+
+    </ion-list>
+</ion-content>
+<!--<ion-alert-controller></ion-alert-controller>-->

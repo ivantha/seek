@@ -38,10 +38,13 @@ export class SearchPage implements OnInit {
     }
 
     getItems() {
+        // Reset items back to all of the items
         this.initializeItems();
 
+        // set val to the value of the search bar
         const val = this.searchBarValue;
 
+        // if the value is an empty string don't filter the items
         if (val && val.trim() != '') {
             this.isItemAvailable = true;
             this.items = this.items.filter((item) => {
