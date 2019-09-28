@@ -1,0 +1,28 @@
+#searchDiv{
+  display: flex;
+  padding: 1rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  align-items: center;
+
+  ion-searchbar{
+    padding: 0;
+    font-size: 0.9rem;
+    margin-right: 1rem;
+  }
+}
+
+#chipSet{
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  ion-avatar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: grey;
+    color: white;
+    font-weight: bolder;
+  }
+}

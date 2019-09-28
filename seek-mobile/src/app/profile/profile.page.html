@@ -17,6 +17,10 @@
 
     <ion-list lines="full" class="ion-no-margin ion-no-padding" >
         <ion-item>
+            <ion-label position="stacked">Email</ion-label>
+            <ion-input required type="text" placeholder="johndoe@gmail.com" disabled="true"></ion-input>
+        </ion-item>
+        <ion-item>
             <ion-label position="stacked">Name
                 <ion-text color="danger">*</ion-text>
             </ion-label>
@@ -42,12 +46,6 @@
             </ion-label>
             <ion-input required type="text" placeholder="+01 000000001"
                        oninput="handlePhoneNumberValue(event)"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label position="stacked">Email<ion-text color="danger">*</ion-text>
-            </ion-label>
-            <ion-input required type="text" placeholder="johndoe@gmail.com"
-                       oninput="handleEmailValue(event)"></ion-input>
         </ion-item>
         <div class="ion-padding">
             <ion-button expand="block" type="submit" class="ion-no-margin">Update</ion-button>
