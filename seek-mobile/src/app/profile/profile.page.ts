@@ -3,7 +3,10 @@ import {ImagePicker} from '@ionic-native/image-picker/ngx';
 import {NavController, ToastController} from '@ionic/angular';
 import {FirebaseService} from '../services/firebase.service';
 import {Crop} from '@ionic-native/crop/ngx';
-import {forEach} from '@angular-devkit/schematics';
+import {UserService} from '../services/user.service';
+import {AuthService} from '../services/auth.service';
+import {User} from '../shared/user';
+import { Storage } from '@ionic/storage';
 
 @Component({
     selector: 'app-profile',
@@ -12,22 +15,36 @@ import {forEach} from '@angular-devkit/schematics';
 })
 export class ProfilePage implements OnInit {
 
-    fullName: string;
+    public currentUser = new User();
 
     constructor(
         public navCtrl: NavController,
         public imagePicker: ImagePicker,
         public cropService: Crop,
         public toastCtrl: ToastController,
-        public firebaseService: FirebaseService
+        public firebaseService: FirebaseService,
+        public userService: UserService,
+        public authService: AuthService,
+        private storage: Storage
     ) {
     }
 
     ngOnInit() {
+        this.storage.get('currentUserEmail').then((currentUserEmail) => {
+            this.userService.getUsers().subscribe(data => {
+                data.map(e => {
+                    return {id: e.payload.doc.id, ...e.payload.doc.data()} as User;
+                }).forEach(value => {
+                    if (value.email === currentUserEmail) {
+                        this.currentUser = value;
+                    }
+                });
+            });
+        });
     }
 
-    handleFirstNameValue(event) {
-        this.fullName = event.target.value;
+    update() {
+        this.userService.updateUser(this.currentUser);
     }
 
     openImagePicker() {

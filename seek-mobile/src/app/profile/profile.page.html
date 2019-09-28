@@ -15,40 +15,45 @@
         <ion-button size="small" (click)="openImagePicker()">Select Photo</ion-button>
     </div>
 
-    <ion-list lines="full" class="ion-no-margin ion-no-padding" >
+    <ion-list lines="full" class="ion-no-margin ion-no-padding">
         <ion-item>
             <ion-label position="stacked">Email</ion-label>
-            <ion-input required type="text" placeholder="johndoe@gmail.com" disabled="true"></ion-input>
+            <ion-input required type="text" disabled="true" value="{{currentUser.email}}"></ion-input>
         </ion-item>
         <ion-item>
             <ion-label position="stacked">Name
                 <ion-text color="danger">*</ion-text>
             </ion-label>
-            <ion-input required type="text" placeholder="John Doe" oninput="handleFullNameValue(event)"></ion-input>
+            <ion-input required type="text" placeholder="John Doe" [(ngModel)]="currentUser.name"></ion-input>
         </ion-item>
         <ion-item>
-            <ion-label position="stacked">Address<ion-text color="danger">*</ion-text></ion-label>
-            <ion-input placeholder="Address Line 1"></ion-input>
-            <ion-input placeholder="Address Line 2"></ion-input>
-            <ion-input placeholder="City"></ion-input>
-            <ion-input placeholder="State"></ion-input>
-            <ion-input placeholder="Zip Code"></ion-input>
+            <ion-label position="stacked">Address
+                <ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-input placeholder="Address Line 1" [(ngModel)]="currentUser.addressLine1"></ion-input>
+            <ion-input placeholder="Address Line 2" [(ngModel)]="currentUser.addressLine2"></ion-input>
+            <ion-input placeholder="City" [(ngModel)]="currentUser.addressCity"></ion-input>
+            <ion-input placeholder="State" [(ngModel)]="currentUser.addressState"></ion-input>
+            <ion-input placeholder="Zip Code" [(ngModel)]="currentUser.addressZip"></ion-input>
         </ion-item>
         <ion-item>
-            <ion-label position="stacked">Gender<ion-text color="danger">*</ion-text></ion-label>
-            <ion-select placeholder="Select One">
-                <ion-select-option value="f">Female</ion-select-option>
-                <ion-select-option value="m">Male</ion-select-option>
+            <ion-label position="stacked">Gender
+                <ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-select placeholder="Select One" [(ngModel)]="currentUser.gender">
+                <ion-select-option value="female">Female</ion-select-option>
+                <ion-select-option value="male">Male</ion-select-option>
             </ion-select>
         </ion-item>
         <ion-item>
             <ion-label position="stacked">Phone number<ion-text color="danger">*</ion-text>
             </ion-label>
-            <ion-input required type="text" placeholder="+01 000000001"
-                       oninput="handlePhoneNumberValue(event)"></ion-input>
+            <ion-input required type="text" placeholder="+01 000000001" [(ngModel)]="currentUser.phone"></ion-input>
         </ion-item>
         <div class="ion-padding">
-            <ion-button expand="block" type="submit" class="ion-no-margin">Update</ion-button>
+            <ion-button expand="block" size="medium" color="primary" type="submit" class="ion-no-margin" (click)="update()">Update</ion-button>
+            <ion-row style="height: 0.5rem"></ion-row>
+            <ion-button expand="block" size="small" color="danger" class="ion-no-margin" (click)="authService.doLogout()">Sign out</ion-button>
         </div>
     </ion-list>
 

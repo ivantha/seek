@@ -8,14 +8,11 @@ import * as firebase from 'firebase/app';
 })
 export class FirebaseService {
 
-    private snapshotChangesSubscription: any;
-
     constructor(public afs: AngularFirestore, public afAuth: AngularFireAuth) {
     }
 
     unsubscribeOnLogOut() {
         // remember to unsubscribe from the snapshotChanges
-        this.snapshotChangesSubscription.unsubscribe();
     }
 
     encodeImageUri(imageUri, callback) {

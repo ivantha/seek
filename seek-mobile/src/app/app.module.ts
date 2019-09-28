@@ -19,6 +19,7 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {ImagePicker} from '@ionic-native/image-picker/ngx';
 import {Crop} from '@ionic-native/crop/ngx';
+import {IonicStorageModule} from '@ionic/storage';
 
 @NgModule({
     declarations: [AppComponent],
@@ -26,6 +27,7 @@ import {Crop} from '@ionic-native/crop/ngx';
     imports: [
         BrowserModule,
         IonicModule.forRoot(),
+        IonicStorageModule.forRoot(),
         AppRoutingModule,
         FilterModalPageModule,
         FormsModule,
