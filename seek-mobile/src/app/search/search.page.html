@@ -6,4 +6,33 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-grid>
+  <ion-row align-items-center>
+    <ion-col size="9">
+      <ion-searchbar 
+ 	type="text" 
+ 	debounce="500" 
+ 	(ionInput)="getItems($event)"
+ 	(ionBlur)="clearItems($event)"
+ 	>
+ 	</ion-searchbar>
+    </ion-col>
+    <ion-col size="3">
+    	<ion-button>Filters</ion-button>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-list *ngIf="isItemAvailable">
+	  <ion-item *ngFor="let item of items">
+	  	<ion-card>
+		  <ion-card-header>
+		    <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+		    <ion-card-title>{{item}}</ion-card-title>
+		  </ion-card-header>
+
+		  <ion-card-content></ion-card-content>
+		</ion-card>
+	  </ion-item>
+	</ion-list>
+  </ion-row>
+</ion-grid>
