@@ -10,32 +10,35 @@ export class SearchPage implements OnInit {
     constructor() {
     }
 
-    isItemAvailable: boolean = false;
+    isItemAvailable = false;
     items: string[] = [];
 
-	initializeItems(){ 
-	    this.items = ["Physics","Chemistry", "Economics"]; 
-	}
+    ngOnInit() {
+    }
 
-	getItems(ev: any) {
-	    // Reset items back to all of the items
-	    this.initializeItems();
+    initializeItems() {
+        this.items = ['Physics', 'Chemistry', 'Economics'];
+    }
 
-	    // set val to the value of the searchbar
-	    const val = ev.target.value;
+    getItems(ev: any) {
+        // Reset items back to all of the items
+        this.initializeItems();
 
-	    // if the value is an empty string don't filter the items
-	    if (val && val.trim() != '') {
-	      this.isItemAvailable = true;
-	      this.items = this.items.filter((item) => {
-	        return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
-	      })
-	    } else {
-	    	this.items = [];
-	    }
-	}
+        // set val to the value of the searchbar
+        const val = ev.target.value;
 
-	clearItems(ev: any) {
-		this.items = [];
-	}
+        // if the value is an empty string don't filter the items
+        if (val && val.trim() != '') {
+            this.isItemAvailable = true;
+            this.items = this.items.filter((item) => {
+                return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
+            });
+        } else {
+            this.items = [];
+        }
+    }
+
+    clearItems(ev: any) {
+        this.items = [];
+    }
 }
