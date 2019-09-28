@@ -7,30 +7,36 @@
 </ion-header>
 
 <ion-grid>
-  <ion-row align-items-center>
-    <ion-col size="9">
-      <ion-searchbar 
- 	type="text" 
- 	debounce="500" 
- 	(ionInput)="getItems($event)"
- 	(ionBlur)="clearItems($event)"
+  <ion-row class="ion-align-items-center">
+    <ion-col>
+      <ion-searchbar
+ 	type="text"
+ 	debounce="500"
+	(ionInput)="onTyping($event)"
  	>
  	</ion-searchbar>
     </ion-col>
-    <ion-col size="3">
-    	<ion-button>Filters</ion-button>
-    </ion-col>
+	  <ion-col size="1">
+		  <ion-button (click)="openModal()" size="small"><ion-icon name="list" ></ion-icon></ion-button>
+	  </ion-col>
+	  <ion-col size="1">
+
+	  </ion-col>
+	  <ion-col size="2">
+		  <ion-button size="small" (click)="getItems()"><ion-icon name="search"></ion-icon>Find</ion-button>
+	  </ion-col>
   </ion-row>
   <ion-row>
     <ion-list *ngIf="isItemAvailable">
 	  <ion-item *ngFor="let item of items">
 	  	<ion-card>
 		  <ion-card-header>
-		    <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+		    <ion-card-subtitle>3km far away | 25 | Male</ion-card-subtitle>
 		    <ion-card-title>{{item}}</ion-card-title>
 		  </ion-card-header>
-
-		  <ion-card-content></ion-card-content>
+		  <ion-card-content>
+			  ...
+		  </ion-card-content>
 		</ion-card>
 	  </ion-item>
 	</ion-list>
