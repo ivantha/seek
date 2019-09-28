@@ -33,7 +33,7 @@
                 <ion-card>
                     <ion-card-content>
                         <ion-card-subtitle>{{item['name']}} | {{item['skill']}} <ion-icon name="star"></ion-icon></ion-card-subtitle>
-                        <ion-card-subtitle>{{item['distance']}}km far away | {{item['age']}} yrs | {{item['gender']}}</ion-card-subtitle>
+                        <ion-card-subtitle>{{+item['distance'].toFixed(2)}}km far away | {{item['age']}} yrs | {{item['gender']}}</ion-card-subtitle>
                     </ion-card-content>
                 </ion-card>
             </ion-item>
