@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {FilterModalPage} from '../filter-modal/filter-modal.page';
+import {FirebaseService} from '../services/firebase.service';
 
 @Component({
     selector: 'app-search',
@@ -9,16 +10,10 @@ import {FilterModalPage} from '../filter-modal/filter-modal.page';
 })
 export class SearchPage implements OnInit {
 
-    ngOnInit(): void {
-    }
+    users: {}[];
 
-    constructor(
-        public modalController: ModalController
-    ) {}
-
-    searchBarValue: string = "";
-    isItemAvailable = false;
-    items: string[] = [];
+    searchBarValue: string = '';
+    items: {}[];
 
     dataReceived: any;
     skillLevel: number;
@@ -27,28 +22,73 @@ export class SearchPage implements OnInit {
     maxDistance: number;
     gender: string;
 
+    constructor(public modalController: ModalController, private fireStore: FirebaseService) {
+    }
+
+    ngOnInit(): void {
+        this.loadUsers();
+    }
+
     initializeItems() {
-        this.items = ['Physics', 'Chemistry', 'Economics'];
+        this.items = [];
     }
 
     onTyping(ev: any) {
         this.searchBarValue = ev.target.value;
 
-        if (this.searchBarValue.trim() === '') this.clearItems()
+        if (this.searchBarValue.trim() === '') {
+            this.clearItems();
+        }
+    }
+
+    loadUsers() {
+        this.fireStore.getUsers().subscribe(data => {
+            if (data) this.users = data.map(e => e.payload.doc.data());
+            else console.log('error getting user details');
+        });
     }
 
     getItems() {
-        // Reset items back to all of the items
         this.initializeItems();
 
-        // set val to the value of the search bar
-        const val = this.searchBarValue;
+        const keyword = 'physics'; //this.searchBarValue;
 
-        // if the value is an empty string don't filter the items
-        if (val && val.trim() != '') {
-            this.isItemAvailable = true;
-            this.items = this.items.filter((item) => {
-                return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
+        if (keyword && keyword.trim() != '') {
+            this.users.forEach(user => {
+                const skills = user['skills'];
+                skills.forEach(skill => {
+                    if (this.gender != 'any') {
+                        if (skill['name'] === keyword
+                            && user['age'] >= this.minAge
+                            && user['age'] <= this.maxAge
+                            && user['gender'] === this.gender
+                            && skill['level'] >= this.skillLevel
+                        ) {
+                            this.items.push({
+                                name: user['name'],
+                                age: user['age'],
+                                gender: user['gender'],
+                                skill: skill['level'],
+                                distance: 5
+                            });
+                        }
+                    } else {
+                        if (skill['name'] === keyword
+                            && user['age'] >= this.minAge
+                            && user['age'] <= this.maxAge
+                            && skill['level'] >= this.skillLevel
+                        ) {
+                            this.items.push({
+                                name: user['name'],
+                                age: user['age'],
+                                gender: user['gender'],
+                                skill: skill['level'],
+                                distance: 5
+                            });
+                        }
+                    }
+
+                });
             });
         } else {
             this.items = [];
@@ -58,6 +98,12 @@ export class SearchPage implements OnInit {
     clearItems() {
         this.items = [];
     }
+
+
+    arrayOne(n: number): any[] {
+        return Array(n);
+    }
+
 
 
     async openModal() {
@@ -77,7 +123,6 @@ export class SearchPage implements OnInit {
                 this.maxAge = payload.data.maxAge;
                 this.minAge = payload.data.minAge;
                 this.maxDistance = payload.data.maxDistance;
-
             }
         });
 

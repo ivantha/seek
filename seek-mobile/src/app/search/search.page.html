@@ -7,38 +7,36 @@
 </ion-header>
 
 <ion-grid>
-  <ion-row class="ion-align-items-center">
-    <ion-col>
-      <ion-searchbar
- 	type="text"
- 	debounce="500"
-	(ionInput)="onTyping($event)"
- 	>
- 	</ion-searchbar>
-    </ion-col>
-	  <ion-col size="1">
-		  <ion-button (click)="openModal()" size="small"><ion-icon name="list" ></ion-icon></ion-button>
-	  </ion-col>
-	  <ion-col size="1">
-
-	  </ion-col>
-	  <ion-col size="2">
-		  <ion-button size="small" (click)="getItems()"><ion-icon name="search"></ion-icon>Find</ion-button>
-	  </ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-list *ngIf="isItemAvailable">
-	  <ion-item *ngFor="let item of items">
-	  	<ion-card>
-		  <ion-card-header>
-		    <ion-card-subtitle>3km far away | 25 | Male</ion-card-subtitle>
-		    <ion-card-title>{{item}}</ion-card-title>
-		  </ion-card-header>
-		  <ion-card-content>
-			  ...
-		  </ion-card-content>
-		</ion-card>
-	  </ion-item>
-	</ion-list>
-  </ion-row>
+    <ion-row class="ion-align-items-center">
+        <ion-col size="7">
+            <ion-searchbar
+                    type="text"
+                    debounce="500"
+                    (ionInput)="onTyping($event)">
+            </ion-searchbar>
+        </ion-col>
+        <ion-col size="2">
+            <ion-button (click)="openModal()" size="small">
+                <ion-icon name="list"></ion-icon>
+            </ion-button>
+        </ion-col>
+        <ion-col size="3">
+            <ion-button size="small" (click)="getItems()">
+                <ion-icon name="search"></ion-icon>
+                Find
+            </ion-button>
+        </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-around">
+        <ion-list>
+            <ion-item *ngFor="let item of items" class="fields">
+                <ion-card>
+                    <ion-card-content>
+                        <ion-card-subtitle>{{item['name']}} | {{item['skill']}} <ion-icon name="star"></ion-icon></ion-card-subtitle>
+                        <ion-card-subtitle>{{item['distance']}}km far away | {{item['age']}} yrs | {{item['gender']}}</ion-card-subtitle>
+                    </ion-card-content>
+                </ion-card>
+            </ion-item>
+        </ion-list>
+    </ion-row>
 </ion-grid>

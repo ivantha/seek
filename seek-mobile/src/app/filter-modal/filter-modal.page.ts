@@ -21,7 +21,7 @@ export class FilterModalPage implements OnInit {
   currentMaxAge: number;
   knobValues: any;
 
-  gender: string;
+  gender: string = "any";
 
   constructor(private modalController: ModalController, private navParams: NavParams) {
     this.currentMaxAge = this.maxAge;
@@ -47,6 +47,10 @@ export class FilterModalPage implements OnInit {
   changeAgeValues() {
     this.currentMinAge = this.knobValues.lower;
     this.currentMaxAge = this.knobValues.upper;
+  }
+
+  onGenderChange($ev) {
+    this.gender = $ev.target.value;
   }
 
 }

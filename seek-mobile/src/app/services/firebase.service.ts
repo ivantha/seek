@@ -17,4 +17,8 @@ export class FirebaseService {
         this.snapshotChangesSubscription.unsubscribe();
     }
 
+    // users
+    getUsers() {
+        return this.afs.collection('users').snapshotChanges();
+    }
 }

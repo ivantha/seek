@@ -1,10 +1,10 @@
 <ion-header>
-  <ion-toolbar text-center>
+  <ion-toolbar class="ion-text-center">
     <ion-title>{{modalTitle}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
   <ion-grid>
     <ion-row>
       <ion-col>
@@ -23,7 +23,7 @@
             <ion-label>Maximum distance</ion-label>
           </ion-list-header>
           <ion-item>
-            <ion-range min="0" max="50" step="1" snaps="true" [(ngModel)]="maxDistance">
+            <ion-range min="0" max="50" step="1" [(ngModel)]="maxDistance">
             </ion-range>
             <ion-badge color="primary">{{maxDistance}} Km</ion-badge>
           </ion-item>
@@ -36,7 +36,7 @@
             <ion-range dualKnobs="true"
                        [min]=minAge
                        [max]="maxAge"
-                       step="1" snaps="true"
+                       step="1"
                        [(ngModel)]="knobValues"
                        (ionChange)="changeAgeValues()"
             >
@@ -44,28 +44,28 @@
             <ion-badge color="primary">{{currentMaxAge}}</ion-badge>
           </ion-item>
           <!-- gender -->
-          <ion-radio-group>
+          <ion-radio-group (ionChange)="onGenderChange($event)">
             <ion-list-header>
               <ion-label>Gender</ion-label>
             </ion-list-header>
             <ion-item>
               <ion-label>Male</ion-label>
-              <ion-radio value="male" checked [(ngModel)]="gender"></ion-radio>
+              <ion-radio value="male" [checked]="this.gender==='male'"></ion-radio>
             </ion-item>
             <ion-item>
               <ion-label>Female</ion-label>
-              <ion-radio value="female" [(ngModel)]="gender"></ion-radio>
+              <ion-radio value="female" [checked]="this.gender==='female'"></ion-radio>
             </ion-item>
             <ion-item>
               <ion-label>Any</ion-label>
-              <ion-radio value="any" [(ngModel)]="gender"></ion-radio>
+              <ion-radio value="any" [checked]="this.gender==='any'"></ion-radio>
             </ion-item>
           </ion-radio-group>
         </ion-list>
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col text-center>
+      <ion-col class="ion-text-center">
         <ion-button (click)="closeModal()">Done</ion-button>
       </ion-col>
     </ion-row>
