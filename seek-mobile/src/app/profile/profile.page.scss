@@ -1,0 +1,17 @@
+#profileDiv{
+  display: flex;
+  width: 100%;
+  padding: 2rem;
+  align-items: center;
+  justify-content: center;
+
+  ion-avatar{
+    height: 7rem;
+    width: 7rem;
+    margin-right: 2rem;
+  }
+}
+
+ion-button{
+  --border-radius: 0;
+}

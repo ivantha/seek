@@ -17,6 +17,8 @@ import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireStorageModule} from '@angular/fire/storage';
+import {ImagePicker} from '@ionic-native/image-picker/ngx';
+import {Crop} from '@ionic-native/crop/ngx';
 
 @NgModule({
     declarations: [AppComponent],
@@ -37,6 +39,8 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
     providers: [
         StatusBar,
         SplashScreen,
+        ImagePicker,
+        Crop,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
     ],
     bootstrap: [AppComponent]
