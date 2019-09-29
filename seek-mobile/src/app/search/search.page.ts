@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {ModalController} from '@ionic/angular';
-import {FilterModalPage} from '../filter-modal/filter-modal.page';
 import {FirebaseService} from '../services/firebase.service';
+import {ModalController, ToastController} from '@ionic/angular';
+import {FilterModalPage} from '../filter-modal/filter-modal.page';
 
 @Component({
     selector: 'app-search',
@@ -18,7 +18,7 @@ export class SearchPage implements OnInit {
     users: {}[];
 
     searchBarValue: string = '';
-    items: {}[];
+    items: {}[] = [];
 
     dataReceived: any;
     skillLevel: number;
@@ -26,8 +26,9 @@ export class SearchPage implements OnInit {
     maxAge: number;
     maxDistance: number;
     gender: string;
+    reviews: [];
 
-    constructor(public modalController: ModalController, private fireStore: FirebaseService) {
+    constructor(public modalController: ModalController, public toastController: ToastController, private fireStore: FirebaseService) {
     }
 
     ngOnInit(): void {
@@ -67,7 +68,7 @@ export class SearchPage implements OnInit {
                 const lastKnownLocation = user['lastKnownLocation'];
                 const lat = lastKnownLocation['_lat'];
                 const long = lastKnownLocation['_long'];
-                const dist = this.haversineInKM(this.myLat, this.myLong, lat, long); console.log(dist);
+                const dist = this.haversineInKM(this.myLat, this.myLong, lat, long);
 
                 skills.forEach(skill => {
                     if (this.gender != 'any') {
@@ -79,11 +80,13 @@ export class SearchPage implements OnInit {
                             && dist <= this.maxDistance
                         ) {
                             this.items.push({
+                                id: user['id'],
                                 name: user['name'],
                                 age: user['age'],
                                 gender: user['gender'],
                                 skill: skill['level'],
-                                distance: dist
+                                distance: dist,
+                                reviews: skill['reviews']
                             });
                         }
                     } else {
@@ -94,11 +97,13 @@ export class SearchPage implements OnInit {
                             && dist <= this.maxDistance
                         ) {
                             this.items.push({
+                                id: user['id'],
                                 name: user['name'],
                                 age: user['age'],
                                 gender: user['gender'],
                                 skill: skill['level'],
-                                distance: dist
+                                distance: dist,
+                                reviews: skill['reviews']
                             });
                         }
                     }
@@ -114,7 +119,7 @@ export class SearchPage implements OnInit {
         this.items = [];
     }
 
-    async openModal() {
+    async openFilterModal() {
         const modal = await this.modalController.create({
             component: FilterModalPage,
             componentProps: {
@@ -137,8 +142,16 @@ export class SearchPage implements OnInit {
         return await modal.present();
     }
 
-    haversineInM(lat1, long1, lat2, long2) {
-        return (1000.0 * this.haversineInKM(lat1, long1, lat2, long2));
+    async presentToast(id: string) {
+        const reviews: [] = this.items.filter(item => item['id'] === id)[0]['reviews'];
+        const reviewsString = reviews.join('\n');
+        const toast = await this.toastController.create({
+            header: 'Reviews',
+            message: reviewsString,
+            position: 'middle',
+            showCloseButton: true,
+        });
+        toast.present();
     }
 
     haversineInKM(lat1, long1, lat2, long2) {

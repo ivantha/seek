@@ -16,7 +16,7 @@
             </ion-searchbar>
         </ion-col>
         <ion-col size="2">
-            <ion-button (click)="openModal()" size="small">
+            <ion-button (click)="openFilterModal()" size="small">
                 <ion-icon name="list"></ion-icon>
             </ion-button>
         </ion-col>
@@ -28,15 +28,25 @@
         </ion-col>
     </ion-row>
     <ion-row class="ion-justify-content-around">
-        <ion-list>
+        <ion-list *ngIf="items.length>0">
             <ion-item *ngFor="let item of items" class="fields">
                 <ion-card>
                     <ion-card-content>
-                        <ion-card-subtitle>{{item['name']}} | {{item['skill']}} <ion-icon name="star"></ion-icon></ion-card-subtitle>
-                        <ion-card-subtitle>{{+item['distance'].toFixed(2)}}km far away | {{item['age']}} yrs | {{item['gender']}}</ion-card-subtitle>
+                        <ion-card-subtitle>{{item['name']}} | {{item['skill']}}
+                            <ion-icon name="star"></ion-icon>
+                        </ion-card-subtitle>
+                        <ion-card-subtitle>{{+item['distance'].toFixed(2)}}km far away | {{item['age']}} yrs
+                            | {{item['gender']}}</ion-card-subtitle>
                     </ion-card-content>
+                    <ion-button [disabled]="!item['reviews']" expand="block" fill="solid"
+                                (click)="presentToast(item['id'])">Reviews
+                    </ion-button>
+                    <ion-button expand="block" fill="solid">Request Session</ion-button>
                 </ion-card>
             </ion-item>
         </ion-list>
+        <ion-row *ngIf="items.length<1">
+            <div [ngStyle]="{color:'red', fontWeight: 'bold'}">Try searching use filters</div>
+        </ion-row>
     </ion-row>
 </ion-grid>

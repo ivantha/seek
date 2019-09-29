@@ -12,7 +12,7 @@ const routes: Routes = [
     {path: 'filter-modal', loadChildren: './filter-modal/filter-modal.module#FilterModalPageModule'},
     {path: 'skills', loadChildren: './skills/skills.module#SkillsPageModule'},
     {path: 'signup', loadChildren: './signup/signup.module#SignupPageModule'},
-    {path: 'signin', loadChildren: './signin/signin.module#SigninPageModule'}
+    {path: 'signin', loadChildren: './signin/signin.module#SigninPageModule'},
 ];
 
 @NgModule({
