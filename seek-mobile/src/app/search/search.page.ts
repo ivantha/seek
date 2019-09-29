@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FirebaseService} from '../services/firebase.service';
 import {ModalController, ToastController} from '@ionic/angular';
 import {FilterModalPage} from '../filter-modal/filter-modal.page';
+import {AuthService} from '../services/auth.service'
 
 @Component({
     selector: 'app-search',
@@ -28,7 +29,7 @@ export class SearchPage implements OnInit {
     gender: string;
     reviews: [];
 
-    constructor(public modalController: ModalController, public toastController: ToastController, private fireStore: FirebaseService) {
+    constructor(public modalController: ModalController, public toastController: ToastController, private fireStore: FirebaseService, private authService: AuthService) {
     }
 
     ngOnInit(): void {
@@ -61,6 +62,10 @@ export class SearchPage implements OnInit {
         this.initializeItems();
 
         const keyword = this.searchBarValue;
+
+        // const userEmail = this.authService.afAuth.auth.currentUser.email;
+        // const userId = this.users.filter(user => user['email'] === userEmail)[0]['id'];
+        // this.users = this.users.filter(user => user['id'] != userId);
 
         if (keyword && keyword.trim() != '') {
             this.users.forEach(user => {
@@ -142,7 +147,7 @@ export class SearchPage implements OnInit {
         return await modal.present();
     }
 
-    async presentToast(id: string) {
+    async presentReviewsToast(id: string) {
         const reviews: [] = this.items.filter(item => item['id'] === id)[0]['reviews'];
         const reviewsString = reviews.join('\n');
         const toast = await this.toastController.create({
@@ -152,6 +157,36 @@ export class SearchPage implements OnInit {
             showCloseButton: true,
         });
         toast.present();
+    }
+
+    async presentRequestToast(id: string) {
+        const item = this.items.filter(item => item['id'] === id)[0];
+        const requesterEmail = this.authService.afAuth.auth.currentUser.email;
+        const requesterId = this.users.filter(user => user['email'] === requesterEmail)[0]['id'];
+        const updatingUserObj = this.users.filter(user => user['id'] === item['id'])[0];
+        updatingUserObj['sessions'] = {
+            skill: this.searchBarValue,
+            requester: requesterId,
+            isAccepted: false
+        };
+
+        this.fireStore.sendSessionRequest(item['id'], updatingUserObj);
+        console.log(item);
+        console.log(updatingUserObj);
+        const toast = await this.toastController.create({
+            header: 'Request for a session',
+            message: 'Your request was sent to '+ item['name'],
+            position: 'top',
+            buttons: [
+                {
+                    text: 'Done',
+                    role: 'cancel'
+                }]
+        });
+
+        toast.present();
+
+
     }
 
     haversineInKM(lat1, long1, lat2, long2) {

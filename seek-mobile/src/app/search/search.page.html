@@ -39,9 +39,9 @@
                             | {{item['gender']}}</ion-card-subtitle>
                     </ion-card-content>
                     <ion-button [disabled]="!item['reviews']" expand="block" fill="solid"
-                                (click)="presentToast(item['id'])">Reviews
+                                (click)="presentReviewsToast(item['id'])">Reviews
                     </ion-button>
-                    <ion-button expand="block" fill="solid">Request Session</ion-button>
+                    <ion-button expand="block" fill="solid" (click)="presentRequestToast(item['id'])">Request Session</ion-button>
                 </ion-card>
             </ion-item>
         </ion-list>

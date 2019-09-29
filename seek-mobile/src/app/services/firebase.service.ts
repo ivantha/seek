@@ -49,4 +49,9 @@ export class FirebaseService {
     getUsers() {
         return this.afs.collection('users').snapshotChanges();
     }
+
+    // update with session request
+    sendSessionRequest(receiverId, item) {
+        this.afs.doc('users/' + receiverId).update(item);
+    }
 }
