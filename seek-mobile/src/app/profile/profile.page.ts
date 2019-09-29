@@ -6,7 +6,6 @@ import {Crop} from '@ionic-native/crop/ngx';
 import {UserService} from '../services/user.service';
 import {AuthService} from '../services/auth.service';
 import {User} from '../models/user.model';
-import {Storage} from '@ionic/storage';
 
 @Component({
     selector: 'app-profile',
@@ -25,20 +24,17 @@ export class ProfilePage implements OnInit {
         public firebaseService: FirebaseService,
         public userService: UserService,
         public authService: AuthService,
-        private storage: Storage
     ) {
     }
 
     ngOnInit() {
-        this.storage.get('currentUserEmail').then((currentUserEmail) => {
-            this.userService.getUsers().subscribe(data => {
-                data.map(e => {
-                    return {id: e.payload.doc.id, ...e.payload.doc.data()} as User;
-                }).forEach(value => {
-                    if (value.email === currentUserEmail) {
-                        this.currentUser = value;
-                    }
-                });
+        this.userService.getUsers().subscribe(data => {
+            data.map(e => {
+                return {id: e.payload.doc.id, ...e.payload.doc.data()} as User;
+            }).forEach(value => {
+                if (value.email === this.authService.afAuth.auth.currentUser.email) {
+                    this.currentUser = value;
+                }
             });
         });
     }

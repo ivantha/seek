@@ -3,7 +3,6 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthService} from '../services/auth.service';
 import {UserService} from '../services/user.service';
-import { Storage } from '@ionic/storage';
 
 @Component({
     selector: 'app-signin',
@@ -31,7 +30,6 @@ export class SigninPage implements OnInit {
         private userService: UserService,
         private formBuilder: FormBuilder,
         private router: Router,
-        private storage: Storage
     ) {
     }
 
@@ -51,7 +49,6 @@ export class SigninPage implements OnInit {
     tryLogin(value) {
         this.authService.doLogin(value)
             .then(res => {
-                this.storage.set('currentUserEmail', value.email);
                 this.router.navigate(['/']);
             }, err => {
                 this.errorMessage = err.message;
