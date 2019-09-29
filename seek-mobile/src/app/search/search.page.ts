@@ -4,6 +4,7 @@ import {ModalController, ToastController} from '@ionic/angular';
 import {FilterModalPage} from '../filter-modal/filter-modal.page';
 import {AuthService} from '../services/auth.service';
 import {UserService} from '../services/user.service';
+import {User} from '../models/user.model';
 
 @Component({
     selector: 'app-search',
@@ -12,15 +13,15 @@ import {UserService} from '../services/user.service';
 })
 export class SearchPage implements OnInit {
 
-    _eQuatorialEarthRadius = 6378.1370;
-    _d2r: number = (Math.PI / 180.0);
+    eQuatorialEarthRadius = 6378.1370;
+    d2r: number = (Math.PI / 180.0);
     myLat = 40.111;
     myLong = 2.111;
 
-    users: {}[];
+    users: User[];
 
     searchBarValue = '';
-    items: {}[] = [];
+    items: any[] = [];
 
     dataReceived: any;
     skillLevel: number;
@@ -30,11 +31,16 @@ export class SearchPage implements OnInit {
     gender: string;
     reviews: [];
 
-    constructor(public modalController: ModalController, public toastController: ToastController, private fireStore: FirebaseService, private authService: AuthService, private userService: UserService) {
+    constructor(public modalController: ModalController, public toastController: ToastController, private fireStore: FirebaseService,
+                private authService: AuthService, private userService: UserService) {
     }
 
     ngOnInit(): void {
-        this.loadUsers();
+        this.userService.getUsers().subscribe(data => {
+            this.users = data.map(e => {
+                return {id: e.payload.doc.id, ...e.payload.doc.data()} as User;
+            });
+        });
     }
 
     initializeItems() {
@@ -49,16 +55,6 @@ export class SearchPage implements OnInit {
         }
     }
 
-    loadUsers() {
-        this.fireStore.getUsers().subscribe(data => {
-            if (data) {
-                this.users = data.map(e => e.payload.doc.data());
-            } else {
-                console.log('error getting user details');
-            }
-        });
-    }
-
     getItems() {
         this.initializeItems();
 
@@ -68,16 +64,16 @@ export class SearchPage implements OnInit {
         // const userId = this.users.filter(user => user['email'] === userEmail)[0]['id'];
         // this.users = this.users.filter(user => user['id'] != userId);
 
-        if (keyword && keyword.trim() != '') {
+        if (keyword && keyword.trim() !== '') {
             this.users.forEach(user => {
                 const skills = user.skills;
                 const lastKnownLocation = user.lastKnownLocation;
-                const lat = lastKnownLocation._lat;
-                const long = lastKnownLocation._long;
+                const lat = lastKnownLocation.latitude;
+                const long = lastKnownLocation.longitude;
                 const dist = this.haversineInKM(this.myLat, this.myLong, lat, long);
 
                 skills.forEach(skill => {
-                    if (this.gender != 'any') {
+                    if (this.gender !== 'any') {
                         if (skill.name === keyword
                             && user.age >= this.minAge
                             && user.age <= this.maxAge
@@ -160,20 +156,20 @@ export class SearchPage implements OnInit {
         toast.present();
     }
 
-    async presentRequestToast(id: string) {
-        const item = this.items.filter(item => item.id === id)[0];
+    async presentRequestToast(itemId: string) {
+        const selectedItem = this.items.filter(item => item.id === itemId)[0];
         const requesterEmail = this.authService.afAuth.auth.currentUser.email;
-        const teacherObject = this.users.filter(user => user.id === item.id)[0];
+        const teacherObject = this.users.filter(user => user.id === selectedItem.id)[0];
         const studentObject = this.users.filter(user => user.email === requesterEmail)[0];
         const requesterId = studentObject.id;
 
-        (teacherObject.sessions as []).push({
+        teacherObject.sessions.push({
             skill: this.searchBarValue,
             requester: requesterId,
             isAccepted: false
         });
 
-        (studentObject.sessions as []).push({
+        studentObject.sessions.push({
             skill: this.searchBarValue,
             requester: requesterId,
             isAccepted: false
@@ -184,7 +180,7 @@ export class SearchPage implements OnInit {
 
         const toast = await this.toastController.create({
             header: 'Request for a session',
-            message: 'Your request was sent to ' + item.name,
+            message: 'Your request was sent to ' + selectedItem.name,
             position: 'top',
             buttons: [
                 {
@@ -197,11 +193,12 @@ export class SearchPage implements OnInit {
     }
 
     haversineInKM(lat1, long1, lat2, long2) {
-        const dlong = (long2 - long1) * this._d2r;
-        const dlat = (lat2 - lat1) * this._d2r;
-        const a = Math.pow(Math.sin(dlat / 2.0), 2.0) + Math.cos(lat1 * this._d2r) * Math.cos(lat2 * this._d2r) * Math.pow(Math.sin(dlong / 2.0), 2.0);
+        const dlong = (long2 - long1) * this.d2r;
+        const dlat = (lat2 - lat1) * this.d2r;
+        // tslint:disable-next-line:max-line-length
+        const a = Math.pow(Math.sin(dlat / 2.0), 2.0) + Math.cos(lat1 * this.d2r) * Math.cos(lat2 * this.d2r) * Math.pow(Math.sin(dlong / 2.0), 2.0);
         const c = 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0 - a));
-        const d = this._eQuatorialEarthRadius * c;
+        const d = this.eQuatorialEarthRadius * c;
 
         return d;
     }

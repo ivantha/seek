@@ -10,6 +10,7 @@ export class User {
     phone: string;
     gender: string;
     yob: number;
+    age: number;
 
     addressLine1: string;
     addressLine2: string;
@@ -19,7 +20,7 @@ export class User {
 
     lastKnownLocation: firebase.firestore.GeoPoint;
 
-    skills: Skill[];
+    skills: Skill[] = [];
 
-    sessions: Session[];
+    sessions: Session[] = [];
 }
