@@ -1,5 +1,6 @@
 import {Skill} from './skill.model';
 import * as firebase from 'firebase/app';
+import {Session} from './session.model';
 
 export class User {
     id: string;
@@ -19,4 +20,6 @@ export class User {
     lastKnownLocation: firebase.firestore.GeoPoint;
 
     skills: Skill[];
+
+    sessions: Session[];
 }
