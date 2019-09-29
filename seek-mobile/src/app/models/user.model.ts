@@ -1,3 +1,6 @@
+import {Skill} from './skill.model';
+import * as firebase from 'firebase/app';
+
 export class User {
     id: string;
 
@@ -12,5 +15,8 @@ export class User {
     addressCity: string;
     addressState: string;
     addressZip: string;
-    // lastKnownLocation: string;
+
+    lastKnownLocation: firebase.firestore.GeoPoint;
+
+    skills: Skill[];
 }

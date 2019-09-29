@@ -5,8 +5,8 @@ import {FirebaseService} from '../services/firebase.service';
 import {Crop} from '@ionic-native/crop/ngx';
 import {UserService} from '../services/user.service';
 import {AuthService} from '../services/auth.service';
-import {User} from '../shared/user';
-import { Storage } from '@ionic/storage';
+import {User} from '../models/user.model';
+import {Storage} from '@ionic/storage';
 
 @Component({
     selector: 'app-profile',
